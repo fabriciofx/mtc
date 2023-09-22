@@ -1,0 +1,84 @@
+\documentclass[12pt]{article}   % artigo fonte 12
+\usepackage[
+    a4paper,% papel A4
+    left=2cm,% margem esquerda
+    right=2cm,% margem direita
+    top=2cm,% margem superior
+    bottom=2cm% margem inferior
+]{geometry}
+% Caracteres / Acentos / Português do Brasil
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{ragged2e} %Usar: \justify
+% Pacotes Matemática
+\usepackage{array,latexsym}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathabx,amstext}
+\usepackage{dsfont}  % Conjuntos: $\mathds{N, Z, Q, R, C}$
+% Coloca o nome das tabelas em negrito
+\usepackage{caption}
+\usepackage{graphicx} % Adiciona suporte a imagens
+\usepackage{float}
+
+\begin{document}
+
+\begin{table}[h!]
+    \centering
+    \caption{Distribuição da população ocupada e da população subocupada por insuficiência de horas (valores absolutos por 1 000 pessoas), segundo grupos de atividades - 2019}
+    \vspace{-0.3cm}
+    \label{tab_pop_ocupada_subocupada}
+    \begin{tabular}{lrr}
+    \hline
+    \multicolumn{1}{c|}{\textbf{Grupos de atividade (1)}}                                  & \multicolumn{1}{c}{\textbf{Ocupada}}              & \multicolumn{1}{c}{\textbf{Subocupada (2)}}              \\ \hline
+    \multicolumn{1}{l|}{}                                                                  &                                                   &                                                          \\
+    \multicolumn{1}{l|}{\textbf{Total}}                                                    & 94 642                                            & 7 187                                                    \\
+    \multicolumn{1}{l|}{}                                                                  &                                                   &                                                          \\
+    \multicolumn{1}{l|}{Agropecuária}                                                      & 8 652                                             & 941                                                      \\
+    \multicolumn{1}{l|}{Indústria}                                                         & 12 231                                            & 462                                                      \\
+    \multicolumn{1}{l|}{Construção}                                                        & 6 823                                             & 692                                                      \\
+    \multicolumn{1}{l|}{Comércio e reparação}                                              & 17 914                                            & 949                                                      \\
+    \multicolumn{1}{l|}{Adm. pública, educação, saúde e serv. sociais}                     & 16 459                                            & 936                                                      \\
+    \multicolumn{1}{l|}{Transporte, armazenagem e correio}                                 & 4 841                                             & 256                                                      \\
+    \multicolumn{1}{l|}{Alojamento e alimentação}                                          & 5 631                                             & 554                                                      \\
+    \multicolumn{1}{l|}{Informação, financeira e outras ativ. profissionais}               & 10 716                                            & 540                                                      \\
+    \multicolumn{1}{l|}{Serviços domésticos}                                               & 6 271                                             & 1 129                                                    \\
+    \multicolumn{1}{l|}{Outros serviços}                                                   & 5 068                                             & 724                                                      \\
+    \multicolumn{1}{l|}{}                                                                  &                                                   &                                                          \\ \hline
+    \multicolumn{3}{l}{\textbf{Fonte:} IBGE. PNAD, 2019.}                                                                                                                                                          \\
+    \multicolumn{3}{l}{\begin{tabular}[c]{@{}l@{}}\textbf{Notas:} (1) Não são apresentados resultados para atividades mal definidas.\\ (2) dados calculados pelas horas trabalhadas até setembro/2015\end{tabular}}
+    \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \caption{População com 14 anos ou mais de idade ocupadas na semana de referência (valores absolutos por 1 000 pessoas), segundo sexo e posição na ocupação e trabalho formal ou informal - 2019}
+    \vspace{-0.3cm}
+    \label{tab_sexo_ocupadas}
+    \begin{tabular}{lrr}
+    \hline
+    \multicolumn{1}{c|}{\textbf{Posição na ocupação}}                    & \multicolumn{2}{c}{\textbf{Sexo}}                                                                  \\
+    \multicolumn{1}{l|}{}                                                & \multicolumn{1}{c}{\textbf{Homem}}              & \multicolumn{1}{c}{\textbf{Mulher}}              \\ \hline
+    \multicolumn{1}{l|}{}                                                &                                                 &                                                  \\
+    \multicolumn{1}{l|}{\textbf{Total}}                                  & 53 306                                          & 41 336                                           \\
+    \multicolumn{1}{l|}{}                                                &                                                 &                                                  \\
+    \multicolumn{1}{l|}{\textbf{Formal}}                                 & 31 210                                          & 24 086                                           \\
+    \multicolumn{1}{l|}{Empregado com carteira}                          & 20 747                                          & 14 460                                           \\
+    \multicolumn{1}{l|}{Trabalhador doméstico com carteira}              & 198                                             & 1 528                                            \\
+    \multicolumn{1}{l|}{Militar ou funcionário público}                  & 3 425                                           & 4 446                                            \\
+    \multicolumn{1}{l|}{Conta própria contribuinte}                      & 4 736                                           & 2 620                                            \\
+    \multicolumn{1}{l|}{Empregador contribuinte}                         & 2 104                                           & 1 031                                            \\
+    \multicolumn{1}{l|}{}                                                &                                                 &                                                  \\
+    \multicolumn{1}{l|}{\textbf{Informal}}                               & 22 096                                          & 17 250                                           \\
+    \multicolumn{1}{l|}{Empregado sem carteira}                          & 9 027                                           & 5 455                                            \\
+    \multicolumn{1}{l|}{Trabalhador doméstico sem carteira}              & 290                                             & 4 196                                            \\
+    \multicolumn{1}{l|}{Conta própria não contribuinte}                  & 11 067                                          & 5 993                                            \\
+    \multicolumn{1}{l|}{Empregador não contribuinte}                     & 930                                             & 305                                              \\
+    \multicolumn{1}{l|}{Trabalhador familiar auxiliar}                   & 784                                             & 1 300                                            \\
+    \multicolumn{1}{l|}{}                                                &                                                 &                                                  \\ \hline
+    \multicolumn{3}{l}{\textbf{Fonte:} IBGE. PNAD, 2019.}                                                                                                                              \\
+    \multicolumn{3}{l}{\begin{tabular}[c]{@{}l@{}}\textbf{Nota:} A classificação dos trabalhos formais/informais\\ baseia-se na definição da Org. Int. do Trabalho - OTI\end{tabular}}
+    \end{tabular}
+\end{table}
+
+\end{document}
+

@@ -1,0 +1,34 @@
+\documentclass[12pt]{article}   % artigo fonte 12
+\usepackage[
+    a4paper,% papel A4
+    left=3cm,% margem esquerda
+    right=2cm,% margem direita
+    top=3cm,% margem superior
+    bottom=2cm% margem inferior
+]{geometry}
+% Caracteres / Acentos / Português do Brasil
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{ragged2e} %Usar: \justify
+% Pacotes Matemática
+\usepackage{array,latexsym}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathabx,amstext}
+\usepackage{dsfont}  % Conjuntos: $\mathds{N, Z, Q, R, C}$
+% Coloca o nome das tabelas em negrito
+\usepackage{caption}
+\usepackage{graphicx} % Adiciona suporte a imagens
+\usepackage{float}
+% Adiciona o pacote ABNTeX2
+\usepackage[alf]{abntex2cite}
+
+\begin{document}
+
+JavaScript é uma linguagem de programação \cite{JavaScriptDefinitivo}. Segundo
+\citeonline{ManualBiosseguranca} biossegurança é um assunto importante
+para hospitais. 
+
+\bibliography{referencias.bib}
+
+\end{document}
+

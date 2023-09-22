@@ -1,0 +1,57 @@
+\documentclass[12pt]{article}   % artigo fonte 12
+\usepackage[
+    a4paper,% papel A4
+    left=3cm,% margem esquerda
+    right=2cm,% margem direita
+    top=3cm,% margem superior
+    bottom=2cm% margem inferior
+]{geometry}
+% Caracteres / Acentos / Português do Brasil
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{ragged2e} %Usar: \justify
+% Pacotes Matemática
+\usepackage{array,latexsym}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathabx,amstext}
+\usepackage{dsfont}  % Conjuntos: $\mathds{N, Z, Q, R, C}$
+% Coloca o nome das tabelas em negrito
+\usepackage{caption}
+\usepackage[labelfont=bf]{caption}
+
+\begin{document}
+
+\begin{table}[h!]
+\centering
+\caption{Letras do alfabeto}
+\label{tab_alfabeto}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+A & B & C & D & E & F & G & H & I & J & K & L & M \\ \hline
+N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{População do Titanic}
+\label{tab_titanic}
+\begin{tabular}{lc|rrrr|r}
+\hline
+            & \multicolumn{1}{l|}{} & \multicolumn{4}{c|}{Idade}                                                                                                   & \multicolumn{1}{l}{}      \\ \cline{3-6}
+Sexo      & Classe                & \multicolumn{2}{c|}{Crianças}                                & \multicolumn{2}{c|}{Adulto}                                   & \multicolumn{1}{c}{Total} \\ \cline{3-6}
+            &                       & \multicolumn{1}{c|}{Morreu} & \multicolumn{1}{c}{Sobreviveu} & \multicolumn{1}{c|}{Morreu} & \multicolumn{1}{c|}{Sobreviveu} & \multicolumn{1}{c}{}      \\ \hline
+            & 1ª                    & \multicolumn{1}{r|}{0}      & \multicolumn{1}{r|}{1}         & \multicolumn{1}{r|}{4}      & 140                             & 145                       \\
+Feminino  & 2ª                    & \multicolumn{1}{r|}{0}      & \multicolumn{1}{r|}{13}        & \multicolumn{1}{r|}{13}     & 80                              & 106                       \\
+            & 3ª                    & \multicolumn{1}{r|}{17}     & \multicolumn{1}{r|}{14}        & \multicolumn{1}{r|}{89}     & 76                              & 196                       \\
+            &                       & \multicolumn{1}{c|}{}       & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}       & \multicolumn{1}{c|}{}           & \multicolumn{1}{c}{}      \\ \hline
+            & 1ª                    & \multicolumn{1}{r|}{0}      & \multicolumn{1}{r|}{5}         & \multicolumn{1}{r|}{118}    & 57                              & 180                       \\
+Masculino & 2ª                    & \multicolumn{1}{r|}{0}      & \multicolumn{1}{r|}{11}        & \multicolumn{1}{r|}{154}    & 14                              & 179                       \\
+            & 3ª                    & \multicolumn{1}{r|}{35}     & \multicolumn{1}{r|}{13}        & \multicolumn{1}{r|}{387}    & 75                              & 510                       \\
+            &                       & \multicolumn{1}{c|}{}       & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}       & \multicolumn{1}{c|}{}           & \multicolumn{1}{c}{}      \\ \hline
+Total     &                       & \multicolumn{1}{r|}{52}     & \multicolumn{1}{r|}{57}        & \multicolumn{1}{r|}{765}    & 442                             & 1316                      \\ \hline
+\end{tabular}
+\end{table}
+
+\end{document}
+
