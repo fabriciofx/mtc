@@ -1,0 +1,340 @@
+\documentclass[14pt]{beamer}
+
+% ---
+% Pacotes fundamentais 
+% ---
+% Pacote para permitir codificação do documento (conversão automática dos acentos)
+\usepackage[utf8]{inputenc}
+% Pacote para permitir seleção de códigos de fonte
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{array}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathabx}
+\usepackage{amstext}
+\usepackage{dsfont}
+% Pacote para permitir inclusão de gráficos
+\usepackage{graphicx}
+% Pacote para permitir citações padrão ABNT	
+\usepackage[alf]{abntex2cite}
+\usepackage{setspace}
+\usepackage{color}
+% Pacote para poder listar códigos fonte em diversas linguagens de programação
+\usepackage{listings}
+\usepackage{lstautogobble}
+% Pacote para permitir criar uma janela preta (code)
+\usepackage{mdframed}
+% Pacote para permitir hyperlinks 
+\usepackage{hyperref}
+
+% ---
+% Configura links do pacote hyperref
+% ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta, 
+    urlcolor=cyan,
+    pdfpagemode=FullScreen
+}
+
+% ---
+% Define cores
+% ---
+\definecolor{terminal-white}{gray}{0.9}
+
+
+% ---
+% Define formatação para códigos fonte
+% ---
+% Código C
+\lstdefinestyle{ccode} {
+    language=C,
+    basicstyle=\ttfamily\scriptsize\color{terminal-white},
+    breaklines=true,
+    numberblanklines=false,
+}
+
+% ---
+% Configura o pacote lstlistings para permitir um bloco de código denominado
+% bashcode, que representa código em shell bash
+% ---
+\makeatletter
+\lstnewenvironment{bashcode}[1][]{
+    \lstset{
+        autogobble,
+        language=bash,
+        basicstyle=\footnotesize\ttfamily\color{terminal-white},
+        backgroundcolor=\color{black},
+        breaklines=true,
+        numberblanklines=false,
+        name=main,
+        #1
+    }
+    \csname\@lst @SetFirstNumber\endcsname
+}
+{
+    \csname\@lst @SaveFirstNumber\endcsname
+}
+\makeatother
+
+
+% ---
+% Dados para a página de título
+% ---
+\title{Uma introdução ao git e ao GitHub}
+\subtitle{Sistema distribuído de controle de versão e rede social de 
+projetos/códigos fontes}
+\date{Outubro 2023}
+\author{Fabrício Cabral}
+\institute{IFPE}
+
+% ---
+% Configuração do tema dos slides
+% ---
+% Usa o tema EastLansing
+\usetheme{EastLansing}
+% Remove os símbolos de navegação
+\setbeamertemplate{navigation symbols}{}
+% Troca o símbolo do itemize por um círculo
+\setbeamertemplate{itemize items}[circle]
+% Permite colocar subitems em um enumerate
+\setbeamertemplate{enumerate items}[default]
+
+
+\begin{document}
+
+% Slide de apresentação
+\titlepage
+
+\begin{frame}{Motivação (1/4)}
+O desenvolvimento de um software é uma atividade de natureza complexa, precisa,
+colaborativa e evolutiva
+\begin{itemize}
+    \item \textbf{Complexa}, pois é composta de várias partes que precisam
+    interagir de forma harmoniosa
+    \item \textbf{Precisa}, pois a troca de uma operação (``+'' por ``-'') pode
+    por todo o trabalho a perder
+    \item \textbf{Colaborativa}, pois necessita de várias pessoas trabalhando
+    simultâneamente
+    \item \textbf{Evolutiva}, pois nasce pequeno e simples e com o passar do
+    tempo torna-se maior e complexo        
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Motivação (2/4)}
+Devido a esta natureza, são necessárias ferramentas que auxiliem no processo de
+codificação, construção, verificação, colaboração e evolução
+\begin{itemize}
+    \item Muitas pessoas participam simultâneamente do desenvolvimento
+    \item Qual a razão e quem efetuou a mudança?
+    \item Quais os arquivos e linhas foram modificadas?
+    \item Quando a mudança foi realizada?
+    \item Como desfazer uma mudança específica?
+    \item Qual mudança ocasionou um bug?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Motivação (3/4)}
+\begin{itemize}
+    \item Quando uma criança nasce, geralmente cria-se um álbum de fotografias
+    que ilustra a sua evolução
+    \begin{itemize}
+        \item O nascimento, mamando, 1º banho, abrindo os olhos pela 1ª vez,
+        ficando em pé, 1ª papinha, 1ª vez que andou, indo pela 1ª vez para a
+        escola, etc.
+    \end{itemize}
+    \item Por que então não fazer um ``álbum de fotografias'' do seu projeto?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Motivação (3/4)}
+\begin{itemize}
+    \item Facilitar o trabalho colaborativo
+    \begin{itemize}
+        \item Gerenciar o conflito entre modificações
+    \end{itemize}
+    \item Facilitar a modificação do código fonte
+    \begin{itemize}
+        \item Backup dos arquivos
+        \item Modificação nos arquivos
+        \item Se a modificação deu errado, restaura o backup
+        \item Depois o desenvolvedor vislumbra como a modificação poderia ter
+        dado certo, mas aí já é tarde        
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exemplo de precisão da atividade}
+    \href{https://lwn.net/Articles/57135/}{\textbf{Tentativa} de colocar um
+    backdoor no kernel do Linux}
+    \begin{mdframed}[
+        backgroundcolor=black,
+        hidealllines=true,
+        innertopmargin=0pt,
+        innerbottommargin=0pt,
+        innerleftmargin=0pt,
+        innerrightmargin=0pt
+    ]
+    \begin{lstlisting}[style=ccode]
+--- GOOD        2003-11-05 13:46:44.000000000 -0800
++++ BAD 2003-11-05 13:46:53.000000000 -0800
+@@ -1111,6 +1111,8 @@
+                schedule();
+                goto repeat;
+        }
++       if ((options == (__WCLONE|__WALL)) && (current->uid = 0))
++                       retval = -EINVAL;
+        retval = -ECHILD;
+    end_wait4:
+        current->state = TASK_RUNNING;
+    \end{lstlisting}
+    \end{mdframed}
+\end{frame}
+
+\begin{frame}{Git (1/2)}
+    \begin{itemize}
+        \item \href{https://git-scm.com}{Sistema distribuído para Gerenciamento
+        de Código Fonte (SCM)}
+        \item
+        \href{https://www.atlassian.com/git/articles/10-years-of-git}{Desenvolvido
+        pelo Linus Torvalds} para auxiliar no desenvolvimento do kernel do Linux
+        \item Focado em desempenho
+        \item Permite trabalhar offline
+        \begin{itemize}
+            \item Conexão com o servidor apenas para compartilhar informações
+        \end{itemize}
+        \item Altamente customizável
+    \end{itemize}    
+\end{frame}
+
+\begin{frame}{Git (2/2)}
+    \begin{itemize}
+        \item Integração com a maioria das ferramentas de desenvolvimento
+        \begin{itemize}
+            \item \href{http://www.eclipse.org}{Eclipse},
+            \href{https://netbeans.org/}{NetBeans},
+            \href{https://www.jetbrains.com/idea}{IntelliJ IDEA},
+            \href{https://www.visualstudio.com}{Visual Studio},
+            \href{https://code.visualstudio.com/}{Visual Studio Code},
+            \href{https://developer.apple.com/xcode}{Xcode},
+            etc.
+        \end{itemize}
+        \item
+        \href{https://rhodecode.com/insights/version-control-systems-2016}{Análises}
+        \href{https://softwareengineering.stackexchange.com/questions/136079/are-there-any-statistics-that-show-the-popularity-of-git-versus-svn}{indicam}
+        que o git hoje é o SCM mais usado no mundo
+        \item Quem usa os outros SCMs (CVS, SVN, Mercurial, etc.) pretende
+        migrar para o git
+        \item \textbf{O git virou o padrão de fato}
+    \end{itemize}    
+\end{frame}
+
+\begin{frame}[fragile]{Instalação do git no Linux}
+    \begin{itemize}
+        \item Debian e afins (Ubuntu)
+        \begin{bashcode}
+            $ apt-get -y install git-all
+        \end{bashcode}
+        \item Fedora e afins
+        \begin{bashcode}
+            $ yum install git-all
+        \end{bashcode}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Instalação do git no Windows}
+    \begin{itemize}
+        \item \href{https://gitforwindows.org/}{Download}
+        \item Siga as instruções e configurações padrão do instalador
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Iniciando o git}
+    \begin{enumerate}
+        \item Configurar o nome e e-mail do desenvolvedor
+        \begin{enumerate}
+            \item Configurar o proxy se necessário
+        \end{enumerate}
+        \item Criar um repositório local do projeto
+        \begin{enumerate}
+            \item Pode-se baixar um projeto já existente
+        \end{enumerate}
+        \item Informar quais arquivos não se deve acompanhar a evolução
+        \item Fazer o commit inicial
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Configurar nome e e-mail}
+    \begin{itemize}
+        \item Configurar o nome e o e-mail do desenvolvedor
+        \begin{bashcode}
+            $ git config --global user.name "Seu Nome"
+            $ git config --global user.email "seu-email@provedor.com"
+        \end{bashcode}
+        \item As configurações acima só precisam ser feitas uma única vez por
+        usuário/máquina
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Configurando o proxy}
+    \begin{itemize}
+        \item Informe ao git o usuário, senha, o host / endereço IP e porta do
+        servidor proxy
+        \begin{bashcode}
+            $ git config --global http.proxy http://usuario:senha@servidorproxy.com:porta
+        \end{bashcode}
+        \item Note que as informações do usuário e senha vão ficar em
+        \textit{plain text} em um arquivo!
+        \item Por segurança (mas não é essencial) restrinja o acesso de
+        leitura/escrita ao arquivo de configuração
+        \begin{bashcode}        
+            $ chmod 600 .gitconfig
+        \end{bashcode}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Criando um repositório local}
+    \begin{itemize}
+        \item Novo projeto
+        \begin{bashcode}
+            $ git init
+        \end{bashcode}
+        \item Projeto já existente
+        \begin{bashcode}
+            $ git clone <URL>
+        \end{bashcode}
+        \item Exemplo:
+        \begin{bashcode}
+            $ git clone https://github.com/fabriciofx/mandacarupark.git
+        \end{bashcode}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ignorando arquivos}
+    \begin{itemize}
+        \item Não faz sentido acompanhar a evolução de todos os arquivos
+        contidos em um projeto
+        \begin{itemize}
+            \item Produto e subproduto da compilação (\texttt{*.class},
+            \texttt{*.obj}, \texttt{*.exe}, \texttt{target/}, etc.)
+            \item Configuração das IDEs (\texttt{.settings}, \texttt{.idea},
+            etc.)
+            \item Arquivos intermediários gerados pelo \LaTeX
+            \item Imagens geradas
+        \end{itemize}
+        \item Criar um arquivo \texttt{.gitignore} dentro do seu projeto
+        contendo nomes/padrões dos arquivos
+        \item Construindo o seu \texttt{.gitignore}
+        \begin{itemize}
+            \item \href{https://gitignore.io}{gitignore.io}
+            \item \url{https://github.com/github/gitignore}
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\end{document}
