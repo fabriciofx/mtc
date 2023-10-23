@@ -3,7 +3,8 @@
 % ---
 % Pacotes fundamentais 
 % ---
-% Pacote para permitir codificação do documento (conversão automática dos acentos)
+% Pacote para permitir codificação do documento (conversão automática dos
+% acentos)
 \usepackage[utf8]{inputenc}
 % Pacote para permitir seleção de códigos de fonte
 \usepackage[T1]{fontenc}
@@ -66,6 +67,8 @@
 \makeatletter
 \lstnewenvironment{bashcode}[1][]{
     \lstset{
+        literate=%
+        {ó}{{\'o}}1 {í}{{\'i}}1,
         autogobble,
         language=bash,
         basicstyle=\footnotesize\ttfamily\color{terminal-white},
@@ -90,7 +93,9 @@
 \subtitle{Sistema distribuído de controle de versão e rede social de 
 projetos/códigos fontes}
 \date{Outubro 2023}
-\author{Fabrício Cabral}
+\author[Fabrício Cabral]{
+    Fabrício Cabral\texorpdfstring{\\\texttt{fabricio.cabral@ead.ifpe.edu.br}}{}
+}
 \institute{IFPE}
 
 % ---
@@ -102,9 +107,10 @@ projetos/códigos fontes}
 \setbeamertemplate{navigation symbols}{}
 % Troca o símbolo do itemize por um círculo
 \setbeamertemplate{itemize items}[circle]
+% Troca o símbolo do subitem do itemize por um triângulo
+\setbeamertemplate{itemize subitem}[triangle]
 % Permite colocar subitems em um enumerate
 \setbeamertemplate{enumerate items}[default]
-
 
 \begin{document}
 
@@ -254,6 +260,54 @@ codificação, construção, verificação, colaboração e evolução
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Glossário (1/2)}
+    \begin{itemize}
+        \item Working directory (Diretório de trabalho)
+        \begin{itemize}
+            \item É o conteúdo da pasta do seu projeto onde você trabalha os
+            seus arquivos (edita, adiciona, exclui)
+        \end{itemize}
+        \item Staging area ou Index (Área de preparação)
+        \begin{itemize}
+            \item Área temporária em que os arquivos/modificações são preparadas
+            para o commit 
+        \end{itemize}
+        \item Commit
+        \begin{itemize}
+            \item É a captura (snapshot) do estado de um projeto em um
+            determinado momento
+        \end{itemize}
+        \item Repository ou Repo (Repositório)
+        \begin{itemize}
+            \item Local em que os commits são guardados, rastreando as
+            alterações feitas no seu projeto, construindo assim um histórico ao
+            longo do tempo
+            \item Pode ser local ou remoto
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Glossário (2/2)}
+    \begin{itemize}
+        \item Branch (Ramo ou Galho)
+        \begin{itemize}
+            \item É um ramo (ou derivação) de um repositório
+            \item O principal ramo chama-se \texttt{main} ou \texttt{master}
+        \end{itemize}
+        \item Stash
+        \begin{itemize}
+            \item Área que salva o atual estado do working directory e da
+            staging area, limpando o working directory
+        \end{itemize}
+        \item Tag (Etiqueta)
+        \begin{itemize}
+            \item É uma marcação (etiqueta) que demarca um ponto (commit) que
+            representa alguma mudança significativa no seu código, ou seja, uma
+            versão (ou release) do seu projeto
+        \end{itemize}        
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Iniciando o git}
     \begin{enumerate}
         \item Configurar o nome e e-mail do desenvolvedor
@@ -286,7 +340,8 @@ codificação, construção, verificação, colaboração e evolução
         \item Informe ao git o usuário, senha, o host / endereço IP e porta do
         servidor proxy
         \begin{bashcode}
-            $ git config --global http.proxy http://usuario:senha@servidorproxy.com:porta
+            $ git config --global http.proxy
+            http://usuario:senha@servidorproxy.com:porta
         \end{bashcode}
         \item Note que as informações do usuário e senha vão ficar em
         \textit{plain text} em um arquivo!
@@ -315,7 +370,7 @@ codificação, construção, verificação, colaboração e evolução
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Ignorando arquivos}
+\begin{frame}{Ignorando arquivos (1/2)}
     \begin{itemize}
         \item Não faz sentido acompanhar a evolução de todos os arquivos
         contidos em um projeto
@@ -332,9 +387,231 @@ codificação, construção, verificação, colaboração e evolução
         \item Construindo o seu \texttt{.gitignore}
         \begin{itemize}
             \item \href{https://gitignore.io}{gitignore.io}
-            \item \url{https://github.com/github/gitignore}
+            \item \href{https://github.com/github/gitignore}{github gitignore}
             \end{itemize}
     \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ignorando arquivos (2/2)}
+    \begin{itemize}
+        \item Exemplo de \texttt{.gitignore} para um projeto \LaTeX\\
+        \begin{columns}
+            \begin{column}{0.2\textwidth}
+                \texttt{*.aux}
+                \texttt{*.lof}
+                \texttt{*.log}
+                \texttt{*.lot}
+                \texttt{*.fls}
+                \texttt{*.out}
+                \texttt{*.toc}
+                \texttt{*.fmt}
+                \texttt{*.fot}
+                \texttt{*.cb}
+            \end{column}
+            \begin{column}{0.5\textwidth}                
+                \texttt{*.cb2}\\
+                \texttt{.*.lb}\\
+                \texttt{*.bbl}\\
+                \texttt{*.bcf}\\
+                \texttt{*.blg}\\
+                \texttt{*.fdb\_latexmk}\\
+                \texttt{*.synctex}\\
+                \texttt{*.synctex.gz}\\
+                \texttt{*.pdfsync}
+            \end{column}
+        \end{columns}
+    \end{itemize}    
+\end{frame}
+
+\begin{frame}[fragile]{Visualizando o estado}
+    \begin{itemize}
+        \item Mostrar o estado do working directory e da staging area
+        \begin{bashcode}
+            $ git status
+        \end{bashcode}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Workflow básico}
+    \begin{enumerate}
+        \item Adicione (ou modifique) os arquivos
+        \begin{itemize}
+            \item Utilize uma IDE, editor de textos ou programa específico
+        \end{itemize}
+        \item Copie as modificações (ou novos arquivos) para a staging area
+        \begin{bashcode}
+            $ git add <arquivo> ou <diretório>
+        \end{bashcode}
+        \begin{itemize}
+            \item \textbf{Sugestão:} utilize o comando abaixo para adicionar
+            todos os arquivos do diretório corrente:
+            \begin{bashcode}
+                $ git add .
+            \end{bashcode}
+        \end{itemize}
+        \item Efetive as mudanças (commit)
+        \begin{bashcode}
+            $ git commit -m "Mensagem do commit"
+        \end{bashcode}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Anatomia de um commit}
+    \begin{itemize}
+        \item Partes de um commit (\texttt{git log})
+        \begin{bashcode}
+            commit 04cbdad0faf7bb420071394d872f550ef75803a2
+            Author: Fabrício Cabral <fbc@meu-provedor.com>
+            Date:   Fri Oct 13 10:42:57 2023 -0300
+            
+                Mensagem do commit
+        \end{bashcode}
+        \begin{itemize}
+            \item \texttt{commit}: identificador único do commit (SHA-256)
+            \item \texttt{Author}: nome e e-mail do autor do commit
+            \item \texttt{Date}: data e hora que o commit foi realizado
+            \item \texttt{Mensagem}: O que faz ou motivou aquela mudança
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Visualizando o histórico}
+    \begin{itemize}
+        \item Mostrar o histórico do repositório local
+        \begin{bashcode}
+            $ git log
+        \end{bashcode}
+        \item Mostrar o conteúdo de um commit
+        \begin{bashcode}
+            $ git show <hash-do-commit>
+        \end{bashcode}
+        \item Mostrar o histórico com o conteúdo de cada commit
+        \begin{bashcode}
+            $ git log -p
+        \end{bashcode}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{GitHub (1/3)}
+    \begin{figure}
+        \centering
+        \includegraphics[width=9cm]{github.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{GitHub (2/3)}
+    \begin{itemize}
+        \item Rede social para desenvolvedores
+        \item Pessoas ou organizações podem compartilhar o repositório dos seus
+        projetos
+        \item Possui diversos outros recursos
+        \begin{itemize}
+            \item Controle de pendências (issue tracker)
+            \item Controle para aceite de modificações (Pull Request)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{GitHub (3/3)}
+    \begin{itemize}
+        \item Crie uma conta de usuário
+        \item O GitHub pode ser acesso por meio de dois protocolos: SSH ou HTTPS
+        \item Via SSH
+        \begin{enumerate}
+            \item Crie um par de chaves SSH (privada e pública)
+            \item Adicione sua chave privada ao \texttt{ssh-agent}
+            \item Adicione sua chave pública ao GitHub
+        \end{enumerate}
+        \item Via HTTPS
+        \begin{enumerate}
+            \item Crie um token de acesso
+            \item Utilize esse token como senha
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Criando um par de chaves SSH}
+    \begin{enumerate}
+        \item Abra o terminal
+        \item Execute o comando abaixo
+        \begin{bashcode}
+            $ ssh-keygen -t ed25519 -C "email@example.com"
+        \end{bashcode}
+        \item Quando perguntado \texttt{``Enter a file in which to save the
+        key''} pressione \textbf{Enter}
+        \item Quando solicitado para informar uma \textit{passphrase} digite
+        uma senha (duas vezes)
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Adicionando sua chave SSH ao ssh-agent}
+    \begin{enumerate}
+        \item Inicie o \texttt{ssh-agent} em modo background
+        \begin{bashcode}
+            $ eval "$(ssh-agent -s)"
+        \end{bashcode}
+        \item Adicione sua chave SSH privada ao \texttt{ssh-agent}
+        \begin{bashcode}
+            $ ssh-add ~/.ssh/id_ed25519
+        \end{bashcode}
+        \item Adicione sua chave SSH pública a sua conta no GitHub
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Adicionando uma chave SSH pública ao GitHub}
+    \begin{enumerate}
+        \item Copie o conteúdo da sua chave SSH pública para a área de
+        transferência
+        \item Clique na foto do seu perfil e então escolha a opção
+        \texttt{Settings} $\rightarrow$ \texttt{SSH e GPG keys}
+        \item Clique em \texttt{New SSH key} ou \texttt{Add SSH key}
+        \item No campo ``Title'' adicione um nome para a sua chave
+        \item Selecione o tipo de chave (Authentication Key)
+        \item No campo ``Key'' cole sua chave SSH pública
+        \item Clique em ``Add SSH key''
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Criando um token de acesso}
+    \begin{enumerate}
+        \item Clique na foto do seu perfil então escolha a opção
+        \texttt{Settings} $\rightarrow$ \texttt{Developer settings}
+        $\rightarrow$ \texttt{Personal access tokens} $\rightarrow$
+        \texttt{Fine-grained tokens}
+        \item Clique em ``Generate new token''
+        \item No campo ``Token name'' escolha o nome para seu token
+        \item No campo ``Expiration'' escolha por quanto tempo seu token será
+        válido
+        \item 
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Compartilhando o projeto (1/2)}
+    \begin{enumerate}
+        \item Crie um novo repositório no GitHub
+        \item Adicione o repositório remoto
+        \begin{bashcode}
+            $ git remote add <repositório-remoto> <URL-do-projeto>            
+        \end{bashcode}
+        \item Envie o branch que deseja compartilhar para o repositório remoto
+        \begin{bashcode}
+            $ git push <repositório-remoto> <branch>    
+        \end{bashcode}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Compartilhando o projeto: Exemplo}
+    \begin{enumerate}
+        \item Crie um novo repositório no GitHub
+        \item Adicione o repositório remoto
+        \begin{bashcode}
+            $ git remote add origin https://github.com/fabriciofx/teste.git
+        \end{bashcode}
+        \item Envie o branch que deseja compartilhar para o repositório remoto
+        \begin{bashcode}
+            $ git push origin main
+        \end{bashcode}
+    \end{enumerate}
 \end{frame}
 
 \end{document}
